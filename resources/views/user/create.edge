@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data User</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Data user</h2>
+
+<button onclick="openModal()">Tambah user</button>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="modal" id="userModal">
+  <h3>Tambah user</h3>
+  <form id="user-form">
+    <label for="nim">NIM:</label>
+    <input type="number" id="nim" required>
+    <label for="nama">Nama:</label>
+    <input type="text" id="nama" required>
+    <label for="umur">Umur:</label>
+    <input type="text" id="umur" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" required>
+    <label for="status">Status:</label>
+    <input type="text" id="status" required>
+    <label for="daftar_ulang">Daftar Ulang:</label>
+    <input type="text" id="daftar_ulang" required>
+    <button type="submit">Tambah User</button>
+  </form>
+  <button onclick="closeModal()">Tutup</button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const userForm = document.getElementById('user-form');
+    const userModal = document.getElementById('userModal');
+    const overlay = document.getElementById('overlay');
+
+    userForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const kode = document.getElementById('kode').value;
+      const nama = document.getElementById('nama').value;
+      const siswa = document.getElementById('siswa').value;
+
+      const newuser = {
+        kode: kode,
+        nama: nama,
+        siswa: siswa
+      };
+
+      // Lakukan apa yang perlu dilakukan dengan data user
+      console.log(newuser);
+
+      closeModal();
+    });
+
+    window.openModal = function () {
+      userModal.style.display = 'block';
+      overlay.style.display = 'block';
+    };
+
+    window.closeModal = function () {
+      userModal.style.display = 'none';
+      overlay.style.display = 'none';
+      userForm.reset();
+    };
+  });
+</script>
+
+</body>
+</html>

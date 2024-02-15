@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data User</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      form {
+        margin-top: 20px;
+      }
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+
+      form {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Data user {{nama_pembimbing}} </h2>
+
+    <button onclick="openModal()">Tambah User</button>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="modal" id="userModal">
+      <h3>Tambah user</h3>
+      <form id="user-form" action="{{ route('user.store') }}" method="POST">
+        <div style="margin-bottom: 10px">
+          <label for="nim"> Nim:</label>
+          <input type="text" id="nim" name="nim" required />
+        </div>
+        <div style="margin-bottom: 10px">
+          <label for="nama"> Nama user:</label>
+          <input type="text" id="nama" name="nama" required />
+        </div>
+        <div style="margin-bottom: 10px">
+          <label for="umur">Umur:</label>
+          <input type="text" id="umur" name="umur" required />
+        </div>
+        <div style="margin-bottom: 10px">
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" required />
+        </div>
+        <div style="margin-bottom: 10px">
+          <label for="password">Password</label>
+          <input type="text" id="password" name="password" required />
+        </div>
+        <div style="margin-bottom: 10px">
+          <label for="status">Status</label>
+          <input type="text" id="status" name="status" required />
+        </div>
+        <div style="margin-bottom: 10px">
+          <label for="daftar_ulang">Daftar Ulang</label>
+          <input type="text" id="daftar_ulang" name="daftar_ulang" required />
+        </div>
+      
+        <button type="submit" style="margin-bottom: 10px">Tambah user</button>
+      </form>
+      <button onclick="closeModal()">Tutup</button>
+    </div>
+
+    <table id="user-table">
+      <thead>
+        <tr>
+          <th>No Urut</th>
+          <th>Nim</th>
+          <th>Nama</th>
+          <th>Umur</th>
+          <th>Email</th>
+          <!-- <th>Password</th> -->
+          <th>Status</th>
+          <th>Daftar Ulang</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(user[0]?.no_urut)
+        @each(data in user)
+        <tr>
+          <td>{{ data?.idx }}</td>
+          <td>{{ data?.nim }}</td>
+          <td>{{ data?.nama }}</td>
+          <td>{{ data?.umur }}</td>
+          <td>{{ data?.email }}</td>
+          <!-- <td>{{ data?.password }}</td> -->
+          <td>{{ data?.status }}</td>
+          <td>{{ data?.daftar_ulang }}</td>
+         
+          <td>
+            <a href="{{ route('user.detail', { id: data.no_urut }) }}">Detail </a>
+            <!-- <a href="{{ route('user.update', { id: data.no_urut }) }}">Edit</a> -->
+            <a href="{{ route('user.delete', { id: data.no_urut }) }}">Delete</a>
+          </td>
+        </tr>
+        @endeach
+        @endif
+        <!-- Data user akan ditampilkan di sini -->
+      </tbody>
+    </table>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const userForm = document.getElementById("user-form");
+        const userModal = document.getElementById("userModal");
+        const overlay = document.getElementById("overlay");
+
+        // userForm.addEventListener("submit", function (event) {
+        //   event.preventDefault();
+
+        //   closeModal();
+        // });
+
+        window.openModal = function () {
+          userModal.style.display = "block";
+          overlay.style.display = "block";
+        };
+
+        window.closeModal = function () {
+          userModal.style.display = "none";
+          overlay.style.display = "none";
+          userForm.reset();
+        };
+      });
+    </script>
+  </body>
+</html>

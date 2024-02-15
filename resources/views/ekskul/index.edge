@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Ekskul - CRUD</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      form {
+        margin-top: 20px;
+      }
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+
+      form {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Data Ekskul {{nama_pembimbing}} </h2>
+
+    <button onclick="openModal()">Tambah Ekskul</button>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="modal" id="ekskulModal">
+      <h3>Tambah ekskul</h3>
+      <form id="ekskul-form" action="{{ route('ekskul.store') }}" method="POST">
+        <div style="margin-bottom: 10px">
+          <label for="nama"> Nama Ekskul:</label>
+          <input type="text" id="nama" name="nama" required />
+        </div>
+        <div style="margin-bottom: 10px">
+          <label for="Jumlah_siswa">Jumlah Siswa:</label>
+          <input type="text" id="jumlah_siswa" name="jumlah_siswa" required />
+        </div>
+        <div style="margin-bottom: 10px">
+          <label for="Deskripsi">Deskripsi</label>
+          <input type="text" id="deskripsi" name="deskripsi" required />
+        </div>
+        <button type="submit" style="margin-bottom: 10px">Tambah ekskul</button>
+      </form>
+      <button onclick="closeModal()">Tutup</button>
+    </div>
+
+    <table id="ekskul-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Jumlah Siswa</th>
+          <th>Deskripsi</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(ekskul[0]?.id)
+        @each(data in ekskul)
+        <tr>
+          <td>{{ data?.idx }}</td>
+          <td>{{ data?.nama }}</td>
+          <td>{{ data?.jumlah_siswa }}</td>
+          <td>{{ data?.deskripsi }}</td>
+          <td>
+            <a href="{{ route('ekskul.detail', { id: data.id }) }}">Detail </a>
+            <!-- <a href="{{ route('ekskul.update', { id: data.id }) }}">Edit</a> -->
+            <a href="{{ route('ekskul.delete', { id: data.id }) }}">Delete</a>
+          </td>
+        </tr>
+        @endeach
+        @endif
+        <!-- Data ekskul akan ditampilkan di sini -->
+      </tbody>
+    </table>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const ekskulForm = document.getElementById("ekskul-form");
+        const ekskulModal = document.getElementById("ekskulModal");
+        const overlay = document.getElementById("overlay");
+
+        // ekskulForm.addEventListener("submit", function (event) {
+        //   event.preventDefault();
+
+        //   closeModal();
+        // });
+
+        window.openModal = function () {
+          ekskulModal.style.display = "block";
+          overlay.style.display = "block";
+        };
+
+        window.closeModal = function () {
+          ekskulModal.style.display = "none";
+          overlay.style.display = "none";
+          ekskulForm.reset();
+        };
+      });
+    </script>
+  </body>
+</html>
